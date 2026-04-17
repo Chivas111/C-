@@ -1,0 +1,28 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+// Имитация аналогового сигнала (например, синус или шум)
+float readAnalogSignal() {
+    // Обычно здесь был бы вызов аппаратного ADC
+    // Например, для STM32: HAL_ADC_GetValue(&hadc1);
+    return 1.65f + (std::rand() % 3300) / 1000.0f; // 1.65 ... 4.95
+}
+
+// Имитация преобразования (10 бит, 0..1023, опорное 5В)
+int analogToDigital(float analogValue) {
+    int bits = 10;
+    float vref = 5.0f;
+    int digitalValue = static_cast<int>((analogValue / vref) * ((1 << bits) - 1));
+    return digitalValue;
+}
+
+int main() {
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    float analogSample = readAnalogSignal();
+    int digital = analogToDigital(analogSample);
+
+    std::cout << "Analog: " << analogSample << " V\n";
+    std::cout << "Digital (10 bit): " << digital << std::endl;
+    return 0;
+}
