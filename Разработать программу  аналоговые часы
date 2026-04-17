@@ -1,0 +1,22 @@
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <thread>
+#include <chrono>
+
+int main() {
+    while (true) {
+        std::time_t now = std::time(nullptr);
+        std::tm* t = std::localtime(&now);
+
+        std::cout << "\r";
+        std::cout << "Аналоговые часы: "
+                  << std::setfill('0') << std::setw(2) << t->tm_hour << ":"
+                  << std::setfill('0') << std::setw(2) << t->tm_min << ":"
+                  << std::setfill('0') << std::setw(2) << t->tm_sec  << std::flush;
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    return 0;
+}
+
